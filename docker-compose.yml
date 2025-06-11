@@ -1,25 +1,21 @@
-version: "3.8"
+version: "3.9"
 
 services:
-  backend:
-    build: ./To-Do-App  # Pointing directly to To-Do-App folder
-    ports:
-      - "8000:8000"
-    volumes:
-      - ./To-Do-App:/app
-    depends_on:
-      - mongo
-    environment:
-      - MONGO_URL=mongodb://mongo:27017/mydb
-
   frontend:
     build: ./frontend
     ports:
       - "3000:3000"
-    volumes:
-      - ./frontend:/app
     depends_on:
       - backend
+
+  backend:
+    build: ./To-Do-App
+    ports:
+      - "8000:8000"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/todoapp
+    depends_on:
+      - mongo
 
   mongo:
     image: mongo
